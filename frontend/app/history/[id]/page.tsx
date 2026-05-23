@@ -225,7 +225,7 @@ export default function HistoryDetailPage() {
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white"
                   >
                     <option value="">— chọn —</option>
-                    {("options" in rest ? (rest as { options: string[] }).options : []).map((o: string) => (
+                    {("options" in rest ? (rest as { readonly options: readonly string[] }).options : []).map((o) => (
                       <option key={o} value={o}>{o}</option>
                     ))}
                   </select>
