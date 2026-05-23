@@ -1,0 +1,20 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.egg-info
+.pytest_cache
+.coverage
+
+# Env files (mount at runtime)
+.env
+.env.*
+
+# Temp uploads
+uploads/
+
+# Tests and docs
+tests/
+*.md
