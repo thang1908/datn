@@ -9,7 +9,6 @@ from src.core.litellm_client import get_langfuse_callback
 from src.db import save_conversation
 from src.graph.graph import call_graph
 from src.graph.state import CallState
-from src.utils.constants import get_channel_type
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +33,7 @@ async def process_crm_message(message: dict) -> dict:
 
     Args:
         message: Request dict with keys:
-            CallId (str), AudioLink (str), Direction (int, optional)
+            CallId (str), AudioLink (str)
 
     Returns:
         Analysis result dict in PascalCase format.
@@ -51,15 +50,11 @@ async def process_crm_message(message: dict) -> dict:
         raise ValueError("Missing required field: AudioLink")
 
     async with _get_semaphore():
-        direction = message.get("Direction", 1)
-        channel_type = get_channel_type(direction)
         conversation_id = _build_conversation_id(call_id)
 
         initial_state: CallState = {
             "call_id": call_id,
             "audio_link": audio_link,
-            "direction": direction,
-            "channel_type": channel_type,
             "conversation_id": conversation_id,
         }
 
@@ -86,7 +81,7 @@ async def process_crm_message(message: dict) -> dict:
                     logger.debug(f"Error flushing Langfuse callback: {e}")
 
         output_keys = [
-            "ConversationId", "ChannelType", "Transcript", "Summary",
+            "ConversationId", "Transcript", "Summary",
             "IsNegative", "NegativeReasonCode", "NegativeReasonDescription",
             "CriteriaScores", "CaseType", "Resolved", "Violations",
         ]
@@ -96,6 +91,5 @@ async def process_crm_message(message: dict) -> dict:
             message_id=output.get("ConversationId", conversation_id),
             crm_output=output,
             call_id=call_id,
-            direction=direction,
         )
         return output

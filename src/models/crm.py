@@ -8,7 +8,6 @@ class CallRequest(BaseModel):
 
     CallId: str = Field(..., description="Call ID")
     AudioLink: str = Field(..., description="URL to audio file (wav/mp3/m4a/flac)")
-    Direction: Optional[int] = Field(1, description="1 = inbound, 2 = outbound")
 
 
 class CRMViolationEvidence(BaseModel):
@@ -40,7 +39,6 @@ class CallAnalysisResult(BaseModel):
     """Analysis result returned from the pipeline."""
 
     ConversationId: str
-    ChannelType: str
     Transcript: List[CRMTranscriptTurn] = Field(default_factory=list)
     Summary: str = ""
     IsNegative: str = "REVIEW"

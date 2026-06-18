@@ -34,33 +34,39 @@ RULES:
 - Nếu không chắc chắn người nói, hãy suy luận theo ngữ cảnh cuộc gọi chăm sóc khách hàng.
 """
 
-PROMPT_SUMMARY_CALL_INBOUND = """VAI TRÒ:	
-Hãy hành động với vai trò là một Chuyên gia Phân tích và Tóm tắt Nội dung, chuyên xử lý dữ liệu thô từ hệ thống nhận dạng giọng nói (ASR) của Tiếng Việt để chắt lọc thông tin cốt lõi.	
-Dữ liệu từ audio các cuộc gọi đến (inbound) từ khách hàng đến nhân viên Chăm sóc Khách hàng.
-NHIỆM VỤ:	
-Đọc văn bản thô từ ASR, sau đó tạo ra một bản tóm tắt ngắn gọn, ĐỦ Ý CHÍNH về các vấn đề chính hoặc yêu cầu của khách hàng.	
-Văn bản thô từ ASR có thể có các thuật ngữ chuyên ngành tiếng anh đồng âm nhưng chưa được transcript đúng 
-Ví dụ 
-"chrome" : "cờ rôm", "chờ rôm", "chờ tôm",... 
-"sale" :"seo", ....	
+PROMPT_SUMMARY_CONVERSATION = """VAI TRÒ:
+Hãy hành động với vai trò là một Chuyên gia Phân tích và Tóm tắt Nội dung, chuyên xử lý dữ liệu thô từ hệ thống nhận dạng giọng nói (ASR) của Tiếng Việt để chắt lọc thông tin cốt lõi.
+Dữ liệu từ audio các cuộc hội thoại giữa khách hàng và nhân viên Chăm sóc Khách hàng.
+NHIỆM VỤ:
+Đọc văn bản thô từ ASR, sau đó tạo ra một bản tóm tắt ngắn gọn, ĐỦ Ý CHÍNH về các vấn đề chính hoặc yêu cầu của khách hàng và kết quả hỗ trợ.
+Văn bản thô từ ASR có thể có các thuật ngữ chuyên ngành tiếng anh đồng âm nhưng chưa được transcript đúng
+Ví dụ
+"chrome" : "cờ rôm", "chờ rôm", "chờ tôm",...
+"sale" :"seo", ....
 "kiotviet": "cốt việt", "kốt diệt", "kêu ối việt",...
-RÀNG BUỘC & QUY TẮC:	
-- Tóm tắt trung thực, KHÔNG BỊA THÔNG TIN và NGỮ CẢNH	
-- Độ dài: Bản tóm tắt nên ngắn gọn, có thời gian chi tiết nếu khách hàng hẹn lại lịch 	
-- Giọng văn: Chuyên nghiệp, trung lập.	
-- Định dạng: Chỉ trả về chuỗi văn bản tóm tắt cuối cùng.	
+"teamviewer" : "tim viu",...
+RÀNG BUỘC & QUY TẮC:
+- Tóm tắt trung thực, KHÔNG BỊA THÔNG TIN và NGỮ CẢNH
+- Độ dài: Bản tóm tắt nên ngắn gọn, có thời gian chi tiết nếu khách hàng hẹn lại lịch
+- Giọng văn: Chuyên nghiệp, trung lập.
+- Định dạng: Chỉ trả về chuỗi văn bản tóm tắt cuối cùng.
 - Xử lý ngoại lệ: Trả về chuỗi rỗng "" đối với các transcript không liên quan hoặc không phải tiếng việt
-VÍ DỤ tóm tắt đầu ra mong muốn:	
----	
-Tóm tắt mong muốn: Khách hàng gặp lỗi trên cả 4 máy in bếp: ứng dụng báo in thành công nhưng phiếu in ra bị trắng, đứt đoạn hoặc không hiển thị món ăn.	
-[VÍ DỤ 2]	
-Văn bản ASR đầu vào: ""	
-Tóm tắt mong muốn: ""	
----	
-[VĂN BẢN CẦN XỬ LÝ]	
-Văn bản ASR đầu vào:	
-{user_raw_text}	
-Tóm tắt mong muốn:	
+VÍ DỤ tóm tắt đầu ra mong muốn:
+---
+[VÍ DỤ 1]
+Tóm tắt mong muốn: Khách hàng gặp lỗi trên cả 4 máy in bếp: ứng dụng báo in thành công nhưng phiếu in ra bị trắng, đứt đoạn hoặc không hiển thị món ăn.
+[VÍ DỤ 2]
+Tóm tắt mong muốn: Đã hỗ trợ thành công. Nhân viên đã hướng dẫn khách hàng kết nối lại máy in và khách hàng xác nhận đã hoạt động bình thường.
+[VÍ DỤ 3]
+Tóm tắt mong muốn: Chưa hỗ trợ được. Vấn đề liên quan đến chữ ký số đã được ghi nhận và chuyển cho bộ phận kỹ thuật xử lý tiếp.
+[VÍ DỤ 4]
+Văn bản ASR đầu vào: ""
+Tóm tắt mong muốn: ""
+---
+[VĂN BẢN CẦN XỬ LÝ]
+Văn bản ASR đầu vào:
+{user_raw_text}
+Tóm tắt mong muốn:
 """
 
 
@@ -441,37 +447,7 @@ NGUYÊN TẮC QUAN TRỌNG
    - Nếu không xác định được mô tả đúng theo mã thì không xuất violation đó.
 """
 
-PROMPT_SUMMARY_CALL_OUTBOUND = """VAI TRÒ:
-Hãy hành động với vai trò là một Chuyên gia Phân tích và Tóm tắt Nội dung, chuyên phân tích transcript thô từ hệ thống nhận dạng giọng nói (ASR) của Tiếng Việt từ audio các cuộc gọi đi (outbound) từ nhân viên Chăm sóc Khách hàng (CSKH) đến khách hàng.
-NHIỆM VỤ:
-Đọc kỹ văn bản thô từ ASR của một cuộc gọi do nhân viên CSKH chủ động thực hiện. Dựa vào nội dung, hãy tạo ra một bản tóm tắt ngắn gọn, ĐỦ Ý CHÍNH , tập trung trả lời hai câu hỏi cốt lõi:
-1.  Kết quả hỗ trợ: Nhân viên CSKH đã hỗ trợ thành công vấn đề của khách hàng hay chưa?
-2.  Vấn đề tồn đọng (nếu có): Nếu chưa hỗ trợ được, vấn đề còn lại là gì và cần làm gì tiếp theo?
-Lưu ý: Văn bản thô từ ASR có thể chứa lỗi nhận dạng các thuật ngữ chuyên ngành (ví dụ: "kiotviet" thành "kêu ối việt", "sale" thành "seo", "teamviewer" thành "tim viu"). Hãy suy luận để hiểu đúng ngữ cảnh.
-RÀNG BUỘC & QUY TẮC:
-- Tập trung vào kết quả: Luôn bắt đầu tóm tắt bằng việc khẳng định trạng thái "Đã hỗ trợ thành công" hoặc "Chưa hỗ trợ được".
-- Trung thực: Chỉ tóm tắt thông tin có trong cuộc gọi, không suy diễn hay bịa đặt.
-- Độ dài: Bản tóm tắt nên ngắn gọn, có thời gian chi tiết nếu khách hàng hẹn lại lịch 	
-- Giọng văn: Chuyên nghiệp, tập trung vào hành động và kết quả.
-- Định dạng: Chỉ trả về chuỗi văn bản tóm tắt cuối cùng.
-- Xử lý ngoại lệ: Trả về chuỗi rỗng "" đối với các transcript không liên quan hoặc không phải tiếng việt
----
-VÍ DỤ tóm tắt đầu ra mong muốn:
-[VÍ DỤ 1]
-Tóm tắt mong muốn: Đã hỗ trợ thành công. Nhân viên đã hướng dẫn khách hàng kết nối lại máy in và khách hàng xác nhận đã hoạt động bình thường.
-[VÍ DỤ 2]
-Tóm tắt mong muốn: Chưa hỗ trợ được. Vấn đề liên quan đến chữ ký số đã được ghi nhận và chuyển cho bộ phận kỹ thuật xử lý tiếp.
-[VÍ DỤ 3]
-Tóm tắt mong muốn: Chưa hỗ trợ được. Nhân viên gọi lại nhưng khách hàng đang bận, hẹn gọi lại sau.
-[VÍ DỤ 4]	
-Văn bản ASR đầu vào: ""	
-Tóm tắt mong muốn: ""	
----
-[VĂN BẢN CẦN XỬ LÝ]
-Văn bản ASR đầu vào:
-{user_raw_text}
-Tóm tắt mong muốn:
-"""
+
 
 PROMPT_SUMMARY_TICKET = """VAI TRÒ:
 Bạn là một Chuyên gia Tổng hợp và Phân tích Nội dung cuộc gọi của Trung tâm Chăm sóc Khách hàng (Call Center), có nhiệm vụ đọc toàn bộ transcript của các cuộc gọi liên quan đến cùng một ticket (sự việc/khách hàng).
@@ -528,9 +504,9 @@ Tóm tắt mong muốn:
 Tóm tắt mong muốn:
 """
 
-SUMMARY_CALL_OUTBOUND_PROMPT = ChatPromptTemplate.from_messages(
+SUMMARY_CONVERSATION_PROMPT = ChatPromptTemplate.from_messages(
     [
-        ("system", PROMPT_SUMMARY_CALL_OUTBOUND),
+        ("system", PROMPT_SUMMARY_CONVERSATION),
         ("human", "Trả về tóm tắt cuối cùng cho transcript trên."),
     ]
 )
@@ -557,12 +533,7 @@ SCORE_QA_PROMPT = ChatPromptTemplate.from_messages(
     ]
 )
 
-SUMMARY_CALL_INBOUND_PROMPT = ChatPromptTemplate.from_messages(
-    [
-        ("system", PROMPT_SUMMARY_CALL_INBOUND),
-        ("human", "Tra ve tom tat cuoi cung cho transcript tren."),
-    ]
-)
+
 
 SUMMARY_TICKET_PROMPT = ChatPromptTemplate.from_messages(
     [
@@ -576,7 +547,6 @@ __all__ = [
     "TRANSCRIBE_PROMPT_TEXT",
     "CASE_AND_RESOLVED_PROMPT",
     "NEGATIVE_ONLY_PROMPT",
-    "SUMMARY_CALL_INBOUND_PROMPT",
-    "SUMMARY_CALL_OUTBOUND_PROMPT",
+    "SUMMARY_CONVERSATION_PROMPT",
     "SUMMARY_TICKET_PROMPT",
 ]

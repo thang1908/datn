@@ -44,19 +44,17 @@ async def save_conversation(
     message_id: str,
     crm_output: dict[str, Any],
     call_id: Optional[str] = None,
-    direction: Optional[int] = None,
 ) -> dict[str, Any]:
     """Save pipeline result to MongoDB.
 
     The output fields are stored flat at the document top level.
-    Internal fields ``_id``, ``call_id``, ``direction``, ``created_at``,
+    Internal fields ``_id``, ``call_id``, ``created_at``,
     ``updated_at`` are added alongside the PascalCase result fields.
     """
     db = await get_db()
     document = {
         "_id": message_id,
         "call_id": call_id,
-        "direction": direction,
         **crm_output,
         "created_at": datetime.now(timezone.utc),
         "updated_at": datetime.now(timezone.utc),

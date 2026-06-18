@@ -6,8 +6,6 @@ import {
   Trash2Icon,
   InboxIcon,
   ArrowRightIcon,
-  PhoneIncomingIcon,
-  PhoneOutgoingIcon,
   ClockIcon,
   CheckCircleIcon,
   XCircleIcon,
@@ -19,7 +17,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 type Item = {
   _id: string;
   call_id: string;
-  direction: number;
   CaseType: string;
   Resolved: string;
   IsNegative: string;
@@ -107,7 +104,7 @@ export default function HistoryPage() {
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 {[
-                  "Thời gian", "Call ID", "Hướng gọi",
+                  "Thời gian", "Call ID",
                   "Case Type", "Kết quả", "Tiêu cực", "Điểm QA", "",
                 ].map((h) => (
                   <th
@@ -140,20 +137,7 @@ export default function HistoryPage() {
                       {item.call_id || item._id}
                     </td>
 
-                    {/* Direction */}
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${
-                        item.direction === 1
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-purple-100 text-purple-700"
-                      }`}>
-                        {item.direction === 1
-                          ? <PhoneIncomingIcon size={11} />
-                          : <PhoneOutgoingIcon size={11} />
-                        }
-                        {item.direction === 1 ? "Inbound" : "Outbound"}
-                      </span>
-                    </td>
+
 
                     {/* Case Type */}
                     <td className="px-4 py-3 text-slate-700">{item.CaseType || "—"}</td>

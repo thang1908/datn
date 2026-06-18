@@ -8,8 +8,6 @@ class CallState(TypedDict, total=False):
     # Input fields
     call_id: str | None
     audio_link: str        # URL to download audio
-    direction: int         # 1 = inbound, 2 = outbound
-    channel_type: str      # "call_inbound" or "call_outbound"
 
     # Internal
     audio_bytes: bytes
@@ -39,7 +37,6 @@ class CallState(TypedDict, total=False):
 
     # Merge output — CRM PascalCase fields
     ConversationId: str
-    ChannelType: str
     Transcript: list[dict[str, str]]
     Summary: str
     IsNegative: str

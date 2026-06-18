@@ -2,17 +2,6 @@ from typing import Any, Dict, List
 
 DEFAULT_CASE_TYPE = "Hỗ trợ phần mềm"
 
-DIRECTION_INBOUND = 1
-DIRECTION_OUTBOUND = 2
-
-
-def get_channel_type(direction: int) -> str:
-    """Derive channel type from Direction value."""
-    if direction == DIRECTION_INBOUND:
-        return "call_inbound"
-    elif direction == DIRECTION_OUTBOUND:
-        return "call_outbound"
-    return "call_inbound"
 
 CRITERION_ORDER: List[str] = [
     "communication",

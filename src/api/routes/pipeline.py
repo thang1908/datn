@@ -11,7 +11,6 @@ from fastapi.responses import StreamingResponse
 from src.core.litellm_client import get_langfuse_callback
 from src.db import save_conversation
 from src.graph.graph import call_graph
-from src.utils.constants import get_channel_type
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/pipeline", tags=["pipeline"])
@@ -28,7 +27,7 @@ _NODE_MESSAGES = {
 }
 
 _OUTPUT_KEYS = [
-    "ConversationId", "ChannelType", "Transcript", "Summary",
+    "ConversationId", "Transcript", "Summary",
     "IsNegative", "NegativeReasonCode", "NegativeReasonDescription",
     "CriteriaScores", "CaseType", "Resolved", "Violations",
 ]
@@ -38,7 +37,6 @@ _OUTPUT_KEYS = [
 async def run_pipeline_stream(
     audio: UploadFile = File(..., description="File audio (wav/mp3/m4a/flac)"),
     call_id: str = Form(None, description="Call ID — tự sinh nếu để trống"),
-    direction: int = Form(1, description="1 = inbound, 2 = outbound"),
 ):
     """
     Upload file audio và nhận kết quả phân tích qua SSE stream.
@@ -67,8 +65,6 @@ async def run_pipeline_stream(
         "audio_bytes": audio_bytes,
         "audio_format": audio_format,
         "call_id": call_id,
-        "direction": direction,
-        "channel_type": get_channel_type(direction),
         "conversation_id": conversation_id,
     }
 
@@ -117,7 +113,6 @@ async def run_pipeline_stream(
                 message_id=conversation_id,
                 crm_output=output,
                 call_id=call_id,
-                direction=direction,
             )
 
             # Gửi kết quả cuối

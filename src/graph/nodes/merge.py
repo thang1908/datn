@@ -47,7 +47,6 @@ async def merge_output(state: CallState) -> dict:
     """
     return {
         "ConversationId": state.get("conversation_id", ""),
-        "ChannelType": state.get("channel_type", ""),
         "Transcript": _pascal_case_turns(state.get("transcript_turns") or []),
         "Summary": state.get("summary", ""),
         "IsNegative": state.get("is_negative", "REVIEW"),

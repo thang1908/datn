@@ -5,8 +5,6 @@ import {
   FileAudioIcon,
   CheckIcon,
   PlayIcon,
-  PhoneIncomingIcon,
-  PhoneOutgoingIcon,
   AlertTriangleIcon,
 } from "@/components/Icons";
 
@@ -26,7 +24,6 @@ type Props = { onResult: (data: Record<string, unknown>) => void };
 
 export default function UploadForm({ onResult }: Props) {
   const [file, setFile]           = useState<File | null>(null);
-  const [direction, setDirection] = useState(1);
   const [loading, setLoading]     = useState(false);
   const [completed, setCompleted] = useState<string[]>([]);
   const [message, setMessage]     = useState("");
@@ -61,7 +58,6 @@ export default function UploadForm({ onResult }: Props) {
     try {
       const form = new FormData();
       form.append("audio", file);
-      form.append("direction", String(direction));
 
       const res = await fetch(`${API_URL}/pipeline/run/stream`, {
         method: "POST",
@@ -148,29 +144,7 @@ export default function UploadForm({ onResult }: Props) {
           />
         </div>
 
-        {/* Direction */}
-        <div className="flex gap-3">
-          {[
-            { v: 1, label: "Inbound",  desc: "Khách gọi vào",  Icon: PhoneIncomingIcon  },
-            { v: 2, label: "Outbound", desc: "Nhân viên gọi ra", Icon: PhoneOutgoingIcon },
-          ].map(({ v, label, desc, Icon }) => (
-            <button
-              key={v} type="button"
-              onClick={() => setDirection(v)}
-              className={`flex-1 py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all flex items-center gap-2 justify-center ${
-                direction === v
-                  ? "border-blue-500 bg-blue-50 text-blue-700"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300"
-              }`}
-            >
-              <Icon size={15} />
-              <div className="text-left">
-                <div>{label}</div>
-                <div className="text-xs font-normal opacity-60">{desc}</div>
-              </div>
-            </button>
-          ))}
-        </div>
+
 
         {error && (
           <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 px-4 py-2.5 rounded-lg border border-red-100">
