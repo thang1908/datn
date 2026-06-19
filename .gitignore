@@ -100,3 +100,4 @@ Thumbs.db
 *.bak
 *.swp
 locust-report/
+reports/

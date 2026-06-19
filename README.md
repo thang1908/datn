@@ -696,27 +696,11 @@ async for chunk in call_graph.astream(initial_state, config=cfg):
 ```
 
 ### 10.2 Kiểm Thử Tải (Load Testing) Với Locust
-Để kiểm thử khả năng chịu tải của Database và API khi nhận đồng thời nhiều request danh sách cuộc gọi, file cấu hình `locustfile.py` đã được chuẩn bị sẵn:
+File `locustfile.py` hỗ trợ 4 kịch bản kiểm thử:
 
-```python
-from locust import HttpUser, task, between
+- `DBHistoryUser`: đo tải FastAPI + MongoDB qua `GET /conversations?limit=:limit`.
+- `PipelineMockUser`: đo pipeline mock qua `POST /pipeline/run/mock/stream`, bao gồm upload audio, SSE và lưu MongoDB nhưng không gọi Gemini.
+- `PipelineUser`: đo pipeline thật qua `POST /pipeline/run/stream`, bao gồm upload audio, LangGraph, Gemini và lưu MongoDB.
+- `MixedWorkloadUser`: mô phỏng người dùng thật, xem lịch sử nhiều hơn upload audio.
 
-class CSQAAppUser(HttpUser):
-    wait_time = between(0.5, 1.5)  # Tần suất gửi request liên tiếp dồn dập
-
-    @task
-    def get_conversations(self):
-        """Test tải kết nối Database: Lấy danh sách cuộc hội thoại từ MongoDB"""
-        self.client.get("/conversations?limit=100")
-```
-
-**Cách chạy kiểm thử tải:**
-1.  Cài đặt locust ở môi trường ảo backend:
-    ```bash
-    pip install locust
-    ```
-2.  Chạy lệnh khởi động giao diện Locust:
-    ```bash
-    locust -f locustfile.py
-    ```
-3.  Truy cập `http://localhost:8089`, điền URL target của Backend (`http://localhost:8000`), cấu hình số lượng User đồng thời và Spawn Rate để bắt đầu đo thông số RPS (Request Per Second) và Response Latency.
+Hướng dẫn chạy headless, xuất CSV/HTML và bảng mẫu để đưa vào báo cáo nằm tại `docs/load-testing.md`.
