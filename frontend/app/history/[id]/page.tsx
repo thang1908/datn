@@ -12,7 +12,7 @@ import {
   XCircleIcon,
 } from "@/components/Icons";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 const EDITABLE_FIELDS = [
   { key: "CaseType",                  label: "Case Type",             type: "text" },

@@ -8,7 +8,7 @@ import {
   AlertTriangleIcon,
 } from "@/components/Icons";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 const NODE_ORDER = [
   { key: "read_audio",             label: "Đọc file audio" },
