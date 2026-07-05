@@ -22,7 +22,7 @@ FROM frontend-deps AS frontend-builder
 WORKDIR /app/frontend
 
 ENV NEXT_PUBLIC_API_URL="" \
-    INTERNAL_API_ORIGIN="http://127.0.0.1:8001"
+    INTERNAL_API_ORIGIN="http://127.0.0.1:8000"
 
 COPY frontend/ ./
 
@@ -35,7 +35,8 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
-    API_PORT=8001 \
+    NEXT_HOST=127.0.0.1 \
+    NEXT_PORT=3000 \
     PORT=8000
 
 WORKDIR /app
@@ -65,6 +66,6 @@ USER appuser
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-    CMD python -c "import os, urllib.request; urllib.request.urlopen(f\"http://localhost:{os.getenv('PORT', '8000')}/health\")"
+    CMD python -c "import os, urllib.request; urllib.request.urlopen(f\"http://localhost:{os.getenv('PORT', '8000')}/\")"
 
 CMD ["./scripts/start-render.sh"]
