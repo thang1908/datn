@@ -1,0 +1,170 @@
+<svg width="1800" height="1280" viewBox="0 0 1800 1280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1800" y2="1280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FAFC"/>
+      <stop offset="1" stop-color="#EDF2F7"/>
+    </linearGradient>
+    <linearGradient id="header" x1="0" y1="0" x2="0" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <filter id="shadow" x="-50" y="-50" width="1900" height="1380" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .title { font: 700 36px "Arial", sans-serif; fill: #F8FAFC; }
+      .subtitle { font: 400 18px "Arial", sans-serif; fill: #CBD5E1; }
+      .section-title { font: 700 22px "Arial", sans-serif; fill: #0F172A; }
+      .section-note { font: 400 16px "Arial", sans-serif; fill: #475569; }
+      .box-title { font: 700 22px "Arial", sans-serif; fill: #0F172A; }
+      .box-subtitle { font: 400 15px "Arial", sans-serif; fill: #475569; }
+      .field-name { font: 700 15px "Arial", sans-serif; fill: #0F172A; }
+      .field-type { font: 700 13px "Arial", sans-serif; fill: #1D4ED8; }
+      .field-note { font: 400 13px "Arial", sans-serif; fill: #475569; }
+      .mini-title { font: 700 17px "Arial", sans-serif; fill: #7C2D12; }
+      .mini-text { font: 400 13px "Arial", sans-serif; fill: #78350F; }
+      .caption { font: 400 15px "Arial", sans-serif; fill: #334155; }
+      .legend-title { font: 700 15px "Arial", sans-serif; fill: #0F172A; }
+      .legend-text { font: 400 14px "Arial", sans-serif; fill: #475569; }
+      .mono { font-family: "Menlo", "Consolas", monospace; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1280" fill="url(#bg)"/>
+
+  <rect x="80" y="60" width="1640" height="1160" rx="28" fill="#FFFFFF" filter="url(#shadow)"/>
+  <rect x="80" y="60" width="1640" height="140" rx="28" fill="url(#header)"/>
+  <rect x="80" y="172" width="1640" height="28" fill="#1E293B"/>
+
+  <text x="120" y="118" class="title">Cau truc du lieu luu tru trong MongoDB</text>
+  <text x="120" y="152" class="subtitle">Database: ai_call_summary  |  Collection: call_analysis_logs  |  1 document = 1 ket qua phan tich cuoc goi</text>
+
+  <text x="120" y="250" class="section-title">Document schema thuc te</text>
+  <text x="120" y="278" class="section-note">Du lieu duoc luu theo dang document linh hoat, ket hop truong scalar, object long nhau va danh sach con.</text>
+
+  <rect x="120" y="320" width="1020" height="780" rx="22" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <rect x="120" y="320" width="1020" height="64" rx="22" fill="#E2E8F0"/>
+  <text x="150" y="360" class="box-title mono">call_analysis_logs document</text>
+  <text x="760" y="360" class="box-subtitle">MongoDB document model</text>
+
+  <g transform="translate(150 410)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">_id</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Ma dinh danh duy nhat cua ban ghi, dang ConversationId.</text>
+  </g>
+
+  <g transform="translate(150 468)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">call_id</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Ma cuoc goi goc do he thong hoac nguoi dung cung cap.</text>
+  </g>
+
+  <g transform="translate(150 526)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">ConversationId</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Ma hoi thoai dung trong pipeline va giao dien lich su.</text>
+  </g>
+
+  <g transform="translate(150 584)">
+    <rect width="960" height="56" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">Transcript</text>
+    <text x="170" y="23" class="field-type">Array&lt;Object&gt;</text>
+    <text x="300" y="23" class="field-note">Danh sach luot hoi thoai sau khi phien am.</text>
+    <text x="300" y="41" class="field-note mono">[{ Speaker, Text }, ...]</text>
+  </g>
+
+  <g transform="translate(150 650)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">Summary</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Tom tat noi dung chinh cua cuoc goi.</text>
+  </g>
+
+  <g transform="translate(150 708)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">CaseType</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Loai van de hoac nhom nghiep vu cua khach hang.</text>
+  </g>
+
+  <g transform="translate(150 766)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">Resolved</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Trang thai xu ly: YES / NO / REVIEW.</text>
+  </g>
+
+  <g transform="translate(150 824)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">IsNegative</text>
+    <text x="170" y="23" class="field-type">String</text>
+    <text x="300" y="23" class="field-note">Danh gia tuong tac tieu cuc: TRUE / FALSE / REVIEW.</text>
+  </g>
+
+  <g transform="translate(150 882)">
+    <rect width="960" height="56" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">NegativeReasonCode</text>
+    <text x="170" y="23" class="field-type">Array&lt;String&gt;</text>
+    <text x="300" y="23" class="field-note">Danh sach ma ly do dan den danh gia tieu cuc.</text>
+    <text x="300" y="41" class="field-note mono">["C1", "A2", ...]</text>
+  </g>
+
+  <g transform="translate(150 948)">
+    <rect width="960" height="56" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">CriteriaScores</text>
+    <text x="170" y="23" class="field-type">Object</text>
+    <text x="300" y="23" class="field-note">Diem QA theo tung tieu chi chat luong cuoc goi.</text>
+    <text x="300" y="41" class="field-note mono">{ Communication, Attitude, DataCollection, ProblemSolving }</text>
+  </g>
+
+  <g transform="translate(150 1014)">
+    <rect width="960" height="56" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">Violations</text>
+    <text x="170" y="23" class="field-type">Array&lt;Object&gt;</text>
+    <text x="300" y="23" class="field-note">Danh sach loi vi pham va bang chung hoi thoai lien quan.</text>
+    <text x="300" y="41" class="field-note mono">[{ CriterionId, ViolationCode, Description, Deduction, Evidence[] }, ...]</text>
+  </g>
+
+  <g transform="translate(150 1080)">
+    <rect width="960" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="18" y="23" class="field-name mono">created_at / updated_at</text>
+    <text x="170" y="23" class="field-type">Datetime</text>
+    <text x="300" y="23" class="field-note">Thoi diem tao ban ghi va cap nhat gan nhat.</text>
+  </g>
+
+  <rect x="1180" y="320" width="500" height="300" rx="22" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <text x="1210" y="360" class="mini-title">Cau truc con 1: Transcript[]</text>
+  <text x="1210" y="392" class="mini-text mono">[</text>
+  <text x="1240" y="422" class="mini-text mono">{</text>
+  <text x="1270" y="452" class="mini-text mono">Speaker: "agent" | "customer"</text>
+  <text x="1270" y="482" class="mini-text mono">Text: "Noi dung phat ngon"</text>
+  <text x="1240" y="512" class="mini-text mono">}</text>
+  <text x="1210" y="542" class="mini-text mono">]</text>
+  <text x="1210" y="582" class="mini-text">Moi phan tu dai dien cho mot luot hoi thoai trong transcript.</text>
+
+  <rect x="1180" y="650" width="500" height="220" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
+  <text x="1210" y="690" class="mini-title" fill="#1E3A8A">Cau truc con 2: CriteriaScores</text>
+  <text x="1210" y="726" class="mini-text mono" fill="#1E40AF">Communication: number</text>
+  <text x="1210" y="756" class="mini-text mono" fill="#1E40AF">Attitude: number</text>
+  <text x="1210" y="786" class="mini-text mono" fill="#1E40AF">DataCollection: number</text>
+  <text x="1210" y="816" class="mini-text mono" fill="#1E40AF">ProblemSolving: number</text>
+  <text x="1210" y="850" class="mini-text" fill="#1E3A8A">Muc diem duoc frontend tong hop thanh diem QA tong.</text>
+
+  <rect x="1180" y="900" width="500" height="230" rx="22" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+  <text x="1210" y="940" class="mini-title" fill="#14532D">Cau truc con 3: Violations[]</text>
+  <text x="1210" y="974" class="mini-text mono" fill="#166534">CriterionId: string</text>
+  <text x="1210" y="1002" class="mini-text mono" fill="#166534">ViolationCode: string</text>
+  <text x="1210" y="1030" class="mini-text mono" fill="#166534">Description: string</text>
+  <text x="1210" y="1058" class="mini-text mono" fill="#166534">Deduction: number</text>
+  <text x="1210" y="1086" class="mini-text mono" fill="#166534">Evidence: [{ Speaker, Text }, ...]</text>
+  <text x="1210" y="1118" class="mini-text" fill="#14532D">Dung de luu loi vi pham va bang chung trich tu hoi thoai.</text>
+
+  <rect x="1180" y="1150" width="500" height="70" rx="18" fill="#F8FAFC" stroke="#CBD5E1"/>
+  <text x="1210" y="1180" class="legend-title">Ghi chu</text>
+  <text x="1210" y="1205" class="legend-text">Hinh nay mo ta schema luu tru ket qua QA cuoc goi trong MongoDB theo implementation hien tai cua he thong.</text>
+
+  <text x="120" y="1185" class="caption">Hinh 4.6: Cau truc du lieu luu tru trong MongoDB cho lich su phan tich cuoc goi</text>
+</svg>

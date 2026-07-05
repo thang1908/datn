@@ -134,12 +134,12 @@ class BaseCSQAUser(HttpUser):
                     response.success()
 
 
-class DBHistoryUser(BaseCSQAUser):
-    """Scenario 1: đo tải API đọc lịch sử và MongoDB."""
+# class DBHistoryUser(BaseCSQAUser):
+#     """Scenario 1: đo tải API đọc lịch sử và MongoDB."""
 
-    @task
-    def browse_history(self):
-        self.get_conversations()
+#     @task
+#     def browse_history(self):
+#         self.get_conversations()
 
 
 class PipelineUser(BaseCSQAUser):
@@ -150,21 +150,21 @@ class PipelineUser(BaseCSQAUser):
         self.run_pipeline_stream()
 
 
-class PipelineMockUser(BaseCSQAUser):
-    """Scenario 3: đo pipeline mock, không gọi Gemini nhưng vẫn upload, SSE và lưu DB."""
+# class PipelineMockUser(BaseCSQAUser):
+#     """Scenario 3: đo pipeline mock, không gọi Gemini nhưng vẫn upload, SSE và lưu DB."""
 
-    @task
-    def upload_audio_mock(self):
-        self.run_pipeline_stream("/pipeline/run/mock/stream", timeout=120)
+#     @task
+#     def upload_audio_mock(self):
+#         self.run_pipeline_stream("/pipeline/run/mock/stream", timeout=120)
 
 
-class MixedWorkloadUser(BaseCSQAUser):
-    """Scenario 4: mô phỏng người dùng thật, đọc lịch sử nhiều hơn upload audio thật."""
+# class MixedWorkloadUser(BaseCSQAUser):
+#     """Scenario 4: mô phỏng người dùng thật, đọc lịch sử nhiều hơn upload audio thật."""
 
-    @task(8)
-    def browse_history(self):
-        self.get_conversations()
+#     @task(8)
+#     def browse_history(self):
+#         self.get_conversations()
 
-    @task(2)
-    def upload_audio(self):
-        self.run_pipeline_stream()
+#     @task(2)
+#     def upload_audio(self):
+#         self.run_pipeline_stream()
