@@ -16,10 +16,21 @@ type Violation = { ViolationCode: string; Description: string; Deduction: number
 type Turn      = { Speaker: string; Text: string };
 type Props     = { data: Record<string, unknown> };
 
+function asStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map(String).filter(Boolean);
+  }
+  if (typeof value === "string") {
+    return value.trim() ? [value] : [];
+  }
+  return [];
+}
+
 export default function ResultDashboard({ data }: Props) {
   const scores     = (data.CriteriaScores as Score) || {};
   const violations = (data.Violations as Violation[]) || [];
   const transcript = (data.Transcript as Turn[]) || [];
+  const negativeReasonCodes = asStringArray(data.NegativeReasonCode);
 
   const total = (
     (scores.Communication  || 0) * 0.2 +
@@ -111,11 +122,11 @@ export default function ResultDashboard({ data }: Props) {
             {String(data.Summary) || "Không có tóm tắt."}
           </p>
 
-          {(data.NegativeReasonCode as string[])?.length > 0 && (
+          {negativeReasonCodes.length > 0 && (
             <div className="mt-4 pt-4 border-t border-slate-100">
               <p className="text-xs font-semibold text-red-600 mb-2">Mã tiêu cực</p>
               <div className="flex flex-wrap gap-1.5">
-                {(data.NegativeReasonCode as string[]).map((code) => (
+                {negativeReasonCodes.map((code) => (
                   <span key={code} className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-mono">
                     {code}
                   </span>

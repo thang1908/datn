@@ -1,10 +1,11 @@
 """Conversation result retrieval routes."""
 
 import logging
+import re
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from src.db import delete_conversation, get_conversation, list_conversations, update_conversation
 
@@ -21,8 +22,21 @@ class ConversationUpdate(BaseModel):
     Resolved: Optional[str] = None
     IsNegative: Optional[str] = None
     Summary: Optional[str] = None
-    NegativeReasonCode: Optional[str] = None
-    NegativeReasonDescription: Optional[str] = None
+    NegativeReasonCode: Optional[list[str]] = None
+    NegativeReasonDescription: Optional[list[str]] = None
+
+    @field_validator("NegativeReasonCode", "NegativeReasonDescription", mode="before")
+    @classmethod
+    def normalize_list_field(cls, value):
+        """Accept textarea strings from the UI but store Mongo values as lists."""
+        if value is None or isinstance(value, list):
+            return value
+        if isinstance(value, str):
+            text = value.strip()
+            if not text:
+                return []
+            return [part.strip() for part in re.split(r"[\n,;]+", text) if part.strip()]
+        return value
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
@@ -97,4 +111,3 @@ async def delete_conversation_result(message_id: str) -> dict:
             status_code=404, detail=f"Conversation {message_id} not found"
         )
     return {"success": True, "deleted_id": message_id}
-

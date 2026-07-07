@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 
 TRANSCRIBE_PROMPT_TEXT = """INSTRUCTION:
-Bạn là hệ thống phân tích cuộc gọi chăm sóc khách hàng.
+Bạn là hệ thống phân tích cuộc gọi chăm sóc khách hàng của kiotviet.
 
 CONTEXT:
 Audio dưới đây là cuộc hội thoại giữa:

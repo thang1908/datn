@@ -16,14 +16,37 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 const EDITABLE_FIELDS = [
   { key: "CaseType",                  label: "Case Type",             type: "text" },
-  { key: "Resolved",                  label: "Kết quả xử lý",         type: "select", options: ["YES", "NO", "PARTIAL"] },
-  { key: "IsNegative",                label: "Tiêu cực",              type: "select", options: ["TRUE", "FALSE", "UNCERTAIN"] },
+  { key: "Resolved",                  label: "Kết quả xử lý",         type: "select", options: ["YES", "NO", "REVIEW"] },
+  { key: "IsNegative",                label: "Tiêu cực",              type: "select", options: ["TRUE", "FALSE", "REVIEW"] },
   { key: "NegativeReasonCode",        label: "Mã lý do tiêu cực",     type: "text" },
   { key: "NegativeReasonDescription", label: "Mô tả lý do tiêu cực",  type: "textarea" },
   { key: "Summary",                   label: "Tóm tắt",               type: "textarea" },
 ] as const;
 
 type EditableKey = typeof EDITABLE_FIELDS[number]["key"];
+type UpdatePayload = Partial<Record<EditableKey, string | string[]>>;
+
+const LIST_FIELDS = new Set<EditableKey>([
+  "NegativeReasonCode",
+  "NegativeReasonDescription",
+]);
+
+function toFormValue(value: unknown): string {
+  if (Array.isArray(value)) {
+    return value.map(String).join("\n");
+  }
+  if (value === null || value === undefined) {
+    return "";
+  }
+  return String(value);
+}
+
+function splitListValue(value: string): string[] {
+  return value
+    .split(/[\n,;]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
 
 export default function HistoryDetailPage() {
   const { id }  = useParams<{ id: string }>();
@@ -51,7 +74,7 @@ export default function HistoryDetailPage() {
         if (d) {
           setData(d);
           const initial: Partial<Record<EditableKey, string>> = {};
-          EDITABLE_FIELDS.forEach(({ key }) => { initial[key] = (d[key] as string) ?? ""; });
+          EDITABLE_FIELDS.forEach(({ key }) => { initial[key] = toFormValue(d[key]); });
           setForm(initial);
           setLoading(false);
         }
@@ -62,9 +85,10 @@ export default function HistoryDetailPage() {
   async function handleSave() {
     setSaving(true);
     setSaveMsg(null);
-    const body: Record<string, string> = {};
+    const body: UpdatePayload = {};
     EDITABLE_FIELDS.forEach(({ key }) => {
-      if (form[key] !== undefined && form[key] !== "") body[key] = form[key]!;
+      const value = form[key] ?? "";
+      body[key] = LIST_FIELDS.has(key) ? splitListValue(value) : value;
     });
     try {
       const res = await fetch(`${API_URL}/conversations/${id}`, {
